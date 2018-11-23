@@ -1,4 +1,4 @@
-# motd
+# motd is the module
 
 #### Table of Contents
 
