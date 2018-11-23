@@ -1,5 +1,5 @@
 {
-  "name": "puppetlabs-motd",
+  "name": "puppetlabs-mdlj",
   "version": "1.8.0",
   "author": "puppetlabs",
   "summary": "A simple module to demonstrate managing /etc/motd or Windows Logon Message as a template",
