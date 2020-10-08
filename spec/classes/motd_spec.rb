@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'motd', type: :class do
+describe 'mdlj', type: :class do
   describe 'On a non-linux system' do
     let(:facts) { { kernel: 'Unknown' } }
 
@@ -23,7 +23,7 @@ describe 'motd', type: :class do
         processor0: 'intel awesome',
         fqdn: 'test.example.com',
         ipaddress: '123.23.243.1',
-        memoryfree: '1 KB',
+        memorysize: '16.00 GB',
       }
     end
 
@@ -32,7 +32,10 @@ describe 'motd', type: :class do
         is_expected.to contain_File('/etc/motd').with(
           ensure: 'file',
           backup: 'false',
-          content: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       Linux\nMemory Free:  1 KB\n",
+          content: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       Linux\nMemory Size:  16.00 GB\n",
+          owner:  'root',
+          group:  'root',
+          mode:   '0644',
         )
       end
     end
@@ -41,7 +44,7 @@ describe 'motd', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          template: 'motd/spec.erb',
+          template: 'mdlj/spec.epp',
         }
       end
 
@@ -67,7 +70,7 @@ describe 'motd', type: :class do
     end
 
     context 'when an external template is specified' do
-      let(:params) { { template: 'motd/spec.erb' } }
+      let(:params) { { template: 'mdlj/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/motd').with(
@@ -79,13 +82,16 @@ describe 'motd', type: :class do
     end
 
     context 'when a template is specified for /etc/issue' do
-      let(:params) { { issue_template: 'motd/spec.erb' } }
+      let(:params) { { issue_template: 'mdlj/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
+          owner:  'root',
+          group:  'root',
+          mode:   '0644',
         )
       end
     end
@@ -107,7 +113,7 @@ describe 'motd', type: :class do
       let(:params) do
         {
           issue_content: 'Hello!',
-          issue_template: 'motd/spec.erb',
+          issue_template: 'mdlj/spec.epp',
         }
       end
 
@@ -121,13 +127,16 @@ describe 'motd', type: :class do
     end
 
     context 'when a template is specified for /etc/issue.net' do
-      let(:params) { { issue_net_template: 'motd/spec.erb' } }
+      let(:params) { { issue_net_template: 'mdlj/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue.net').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
+          owner:  'root',
+          group:  'root',
+          mode:   '0644',
         )
       end
     end
@@ -149,7 +158,7 @@ describe 'motd', type: :class do
       let(:params) do
         {
           issue_net_content: 'Hello!',
-          issue_net_template: 'motd/spec.erb',
+          issue_net_template: 'mdlj/spec.epp',
         }
       end
 
@@ -196,7 +205,7 @@ describe 'motd', type: :class do
         processor0: 'intel awesome',
         fqdn: 'test.example.com',
         ipaddress: '123.23.243.1',
-        memoryfree: '1 KB',
+        memorysize: '16.00 GB',
       }
     end
 
@@ -205,7 +214,7 @@ describe 'motd', type: :class do
         is_expected.to contain_Registry_value('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\policies\system\legalnoticetext').with(
           ensure: 'present',
           type: 'string',
-          data: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       windows\nMemory Free:  1 KB\n",
+          data: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       windows\nMemory Size:  16.00 GB\n",
         )
       end
     end
@@ -213,6 +222,7 @@ describe 'motd', type: :class do
       let(:params) do
         {
           content: 'Hello!',
+          windows_motd_title: 'This is the title.',
         }
       end
 
@@ -221,6 +231,11 @@ describe 'motd', type: :class do
           ensure: 'present',
           type: 'string',
           data: 'Hello!',
+        )
+        is_expected.to contain_Registry_value('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\policies\system\legalnoticecaption').with(
+          ensure: 'present',
+          type: 'string',
+          data: 'This is the title.',
         )
       end
     end
@@ -237,7 +252,7 @@ describe 'motd', type: :class do
         processor0: 'intel',
         fqdn: 'test.example.com',
         ipaddress: '123.23.243.1',
-        memoryfree: '1 KB',
+        memorysize: '16.00 GB',
       }
     end
 
@@ -246,7 +261,7 @@ describe 'motd', type: :class do
         is_expected.to contain_File('/etc/motd').with(
           ensure: 'file',
           backup: 'false',
-          content: "TestOS 11 amd64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel\nKernel:       FreeBSD\nMemory Free:  1 KB\n",
+          content: "TestOS 11 amd64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel\nKernel:       FreeBSD\nMemory Size:  16.00 GB\n",
         )
       end
     end
@@ -255,7 +270,7 @@ describe 'motd', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          template: 'motd/spec.erb',
+          template: 'motd/spec.epp',
         }
       end
 
@@ -281,13 +296,69 @@ describe 'motd', type: :class do
     end
 
     context 'when an external template is specified' do
-      let(:params) { { template: 'motd/spec.erb' } }
+      let(:params) { { template: 'motd/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/motd').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
+        )
+      end
+    end
+  end
+  describe 'On AIX' do
+    let(:facts) do
+      {
+        kernel: 'AIX',
+        operatingsystem: 'AIX',
+        operatingsystemrelease: '7100-04-02-1614',
+        osfamily: 'AIX',
+        architecture: 'PowerPC_POWER8',
+        processor0: 'PowerPC_POWER8',
+        fqdn: 'test.example.com',
+        ipaddress: '123.23.243.1',
+        memorysize: '16.00 GB',
+      }
+    end
+
+    context 'when neither template or source are specified' do
+      it do
+        is_expected.to contain_File('/etc/motd').with(
+          ensure: 'file',
+          backup: 'false',
+          content: "AIX 7100-04-02-1614 PowerPC_POWER8\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    \PowerPC_POWER8\nKernel:       AIX\nMemory Size:  16.00 GB\n",
+          owner:  'bin',
+          group:  'bin',
+          mode:   '0644',
+        )
+      end
+    end
+    context 'when a template is specified for /etc/issue' do
+      let(:params) { { issue_template: 'motd/spec.epp' } }
+
+      it do
+        is_expected.to contain_File('/etc/issue').with(
+          ensure: 'file',
+          backup: 'false',
+          content: "Test Template for Rspec\n",
+          owner:  'bin',
+          group:  'bin',
+          mode:   '0644',
+        )
+      end
+    end
+    context 'when a template is specified for /etc/issue.net' do
+      let(:params) { { issue_net_template: 'motd/spec.epp' } }
+
+      it do
+        is_expected.to contain_File('/etc/issue.net').with(
+          ensure: 'file',
+          backup: 'false',
+          content: "Test Template for Rspec\n",
+          owner:  'bin',
+          group:  'bin',
+          mode:   '0644',
         )
       end
     end

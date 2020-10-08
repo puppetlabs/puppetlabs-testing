@@ -9,47 +9,47 @@ issue_net_file = '/etc/issue.net'
 template_expected_content = 'Test Template for Rspec'
 
 pp_static_content = <<-PUPPETCODE
-    class { motd:
+    class { mdlj:
       content => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template = <<-PUPPETCODE
-    class { motd:
-      template => "motd/spec.erb",
+    class { mdlj:
+      template => "mdlj/spec.epp",
     }
 PUPPETCODE
 
 pp_static_content_issue = <<-PUPPETCODE
-    class { motd:
+    class { mdlj:
       issue_content => "Hello world!\n",
       content       => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template_issue = <<-PUPPETCODE
-    class { motd:
-      issue_template => "motd/spec.erb",
+    class { mdlj:
+      issue_template => "mdlj/spec.epp",
       content        => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_content_issue_net = <<-PUPPETCODE
-    class { motd:
+    class { mdlj:
       issue_net_content => "Hello world!\n",
       content           => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template_issue_net = <<-PUPPETCODE
-    class { motd:
-      issue_net_template => "motd/spec.erb",
+    class { mdlj:
+      issue_net_template => "mdlj/spec.epp",
       content            => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_debian_dynamic = <<-PUPPETCODE
-    class { motd:
+    class { mdlj:
       dynamic_motd => false,
       content      => "Hello world!\n",
     }
@@ -62,11 +62,9 @@ PUPPETCODE
 # @param [string]  expected_contain:    Expected contents of the MOTD file to be compared
 # @param [string]  filename:            MOTD file to be tested
 def test_motd(pp, expected_contain, filename)
-  # Run it twice and test for idempotency
-  apply_manifest(pp, catch_failures: true)
-  apply_manifest(pp, catch_changes: true)
+  idempotent_apply(pp)
 
-  return unless fact('osfamily') != 'windows'
+  return unless os[:family] != 'windows'
   expect(file(filename)).to be_file
   expect(file(filename)).to contain expected_contain
 end
@@ -108,7 +106,7 @@ describe 'Message of the day' do
     end
   end
 
-  context 'when disable dynamic motd settings on Debian', if: fact('osfamily') == 'Debian' do
+  context 'when disable dynamic motd settings on Debian', if: os[:family] == 'debian' do
     it do
       test_motd(pp_debian_dynamic, "Hello world!\n", motd_file)
     end
