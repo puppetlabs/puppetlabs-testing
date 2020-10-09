@@ -1,7 +1,8 @@
-name: "manual_test"
+name: "nightly"
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   LitmusAcceptance:
@@ -24,8 +25,8 @@ jobs:
           "VMs": [
             {
              "cloud": "gcp",
-             "region": "europe-west1",
-             "zone": "europe-west1-d",
+             "region": "europe-west3",
+             "zone": "europe-west3-c",
              "images": ["centos-7-v20200618"]
             }
           ]
@@ -38,7 +39,7 @@ jobs:
         timeout_minutes: 30
         max_attempts: 5
         retry_wait_seconds: 60
-        command: bundle exec rake 'litmus:install_agent'
+        command: bundle exec rake 'litmus:install_agent[puppet7-nightly]'
     - name: Install module
       run: bundle exec rake 'litmus:install_module'
     - name: Run acceptance tests

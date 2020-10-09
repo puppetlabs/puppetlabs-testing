@@ -1,7 +1,7 @@
 name: "manual_test"
 
 on:
-  workflow_dispatch:
+  pull_request: [open]
 
 jobs:
   LitmusAcceptance:
