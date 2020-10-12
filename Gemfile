@@ -70,5 +70,6 @@ extra_gemfiles.each do |gemfile|
   end
 end
 
-gem "puppet_litmus", git: 'https://github.com/carabasdaniel/puppet_litmus.git', branch: 'master'
+gem 'bolt', '~> 2.30'
+gem 'puppet_litmus', git: 'https://github.com/carabasdaniel/puppet_litmus.git', branch: 'master'
 # vim: syntax=ruby
