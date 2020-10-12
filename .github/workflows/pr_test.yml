@@ -1,7 +1,6 @@
-name: "manual_test"
+name: "pr_test"
 
-on:
-  pull_request: [open]
+on: [push, pull_request]
 
 jobs:
   LitmusAcceptance:
