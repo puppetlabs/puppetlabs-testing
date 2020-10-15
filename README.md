@@ -1,4 +1,6 @@
-# motd
+# motd - testing version
+
+> **WARNING** This is a testing version of MotD. DO NOT USE IN PRODUCTION **WARNING**
 
 #### Table of Contents
 
