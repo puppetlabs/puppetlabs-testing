@@ -1,6 +1,6 @@
 name: "pr_test"
 
-on: [push, pull_request]
+on: pull_request_target
 
 jobs:
   LitmusAcceptance:
