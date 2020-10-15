@@ -32,6 +32,12 @@ group :development do
   gem "github_changelog_generator",                              require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
 end
 
+# only load litmus on ruby versions new enough for bolt
+if Gem::Requirement.create(['>= 2.5.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
+  gem 'bolt', '~> 2.30'
+  gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git', branch: 'master'
+end
+
 puppet_version = ENV['PUPPET_GEM_VERSION']
 facter_version = ENV['FACTER_GEM_VERSION']
 hiera_version = ENV['HIERA_GEM_VERSION']
