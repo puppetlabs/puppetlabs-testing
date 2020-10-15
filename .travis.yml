@@ -1,6 +1,6 @@
 ---
 os: linux
-dist: xenial
+dist: trusty
 language: ruby
 cache: bundler
 before_install:
@@ -13,10 +13,13 @@ before_install:
   - gem --version
   - bundle -v
 script:
-  - 'bundle exec rake $CHECK'
+  - 'SIMPLECOV=yes bundle exec rake $CHECK'
 bundler_args: --without system_tests
 rvm:
   - 2.5.7
+env:
+  global:
+    - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
 stages:
   - static
   - spec
@@ -43,7 +46,8 @@ jobs:
       stage: deploy
 branches:
   only:
-    - master
+    - main
     - /^v\d/
+    - release
 notifications:
   email: false

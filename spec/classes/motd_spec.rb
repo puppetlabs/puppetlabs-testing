@@ -7,7 +7,7 @@ describe 'mdlj', type: :class do
     it 'does not fail' do
       is_expected.not_to raise_error
     end
-    it { is_expected.not_to contain_file('/etc/motd') }
+    it { is_expected.not_to contain_file('/etc/mdlj') }
     it { is_expected.not_to contain_file('/etc/issue') }
     it { is_expected.not_to contain_file('/etc/issue.net') }
   end
@@ -29,7 +29,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       Linux\nMemory Size:  16.00 GB\n",
@@ -49,7 +49,7 @@ describe 'mdlj', type: :class do
       end
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -61,7 +61,7 @@ describe 'mdlj', type: :class do
       let(:params) { { content: 'Hello!' } }
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: 'Hello!',
@@ -73,7 +73,7 @@ describe 'mdlj', type: :class do
       let(:params) { { template: 'mdlj/spec.epp' } }
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -182,16 +182,16 @@ describe 'mdlj', type: :class do
       }
     end
 
-    context 'when dynamic motd is false' do
-      let(:params) { { dynamic_motd: false } }
+    context 'when dynamic mdlj is false' do
+      let(:params) { { dynamic_mdlj: false } }
 
-      it { is_expected.to contain_file_line('dynamic_motd').with_line('session    optional     pam_motd.so  motd=/run/motd.dynamic noupdate') }
+      it { is_expected.to contain_file_line('dynamic_mdlj').with_line('session    optional     pam_mdlj.so  mdlj=/run/mdlj.dynamic noupdate') }
     end
 
-    context 'when dynamic motd is true' do
-      let(:params) { { dynamic_motd: true } }
+    context 'when dynamic mdlj is true' do
+      let(:params) { { dynamic_mdlj: true } }
 
-      it { is_expected.not_to contain_file_line('dynamic_motd') }
+      it { is_expected.not_to contain_file_line('dynamic_mdlj') }
     end
   end
   describe 'On Windows' do
@@ -222,7 +222,7 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          windows_motd_title: 'This is the title.',
+          windows_mdlj_title: 'This is the title.',
         }
       end
 
@@ -258,7 +258,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "TestOS 11 amd64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel\nKernel:       FreeBSD\nMemory Size:  16.00 GB\n",
@@ -270,12 +270,12 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          template: 'motd/spec.epp',
+          template: 'mdlj/spec.epp',
         }
       end
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -287,7 +287,7 @@ describe 'mdlj', type: :class do
       let(:params) { { content: 'Hello!' } }
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: 'Hello!',
@@ -296,10 +296,10 @@ describe 'mdlj', type: :class do
     end
 
     context 'when an external template is specified' do
-      let(:params) { { template: 'motd/spec.epp' } }
+      let(:params) { { template: 'mdlj/spec.epp' } }
 
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -324,7 +324,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/motd').with(
+        is_expected.to contain_File('/etc/mdlj').with(
           ensure: 'file',
           backup: 'false',
           content: "AIX 7100-04-02-1614 PowerPC_POWER8\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    \PowerPC_POWER8\nKernel:       AIX\nMemory Size:  16.00 GB\n",
@@ -335,7 +335,7 @@ describe 'mdlj', type: :class do
       end
     end
     context 'when a template is specified for /etc/issue' do
-      let(:params) { { issue_template: 'motd/spec.epp' } }
+      let(:params) { { issue_template: 'mdlj/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue').with(
@@ -349,7 +349,7 @@ describe 'mdlj', type: :class do
       end
     end
     context 'when a template is specified for /etc/issue.net' do
-      let(:params) { { issue_net_template: 'motd/spec.epp' } }
+      let(:params) { { issue_net_template: 'mdlj/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue.net').with(
