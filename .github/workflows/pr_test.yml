@@ -16,7 +16,6 @@ jobs:
     - name: Install gems
       run: bundle install
     - name: Provision test environment
-      #  "images": ["centos-7-v20200618", "windows-server-2016-dc-v20200813"]
       run: |
         cat <<EOF >> test_machines.json
         {
@@ -26,7 +25,7 @@ jobs:
              "cloud": "gcp",
              "region": "europe-west1",
              "zone": "europe-west1-d",
-             "images": ["centos-7-v20200618"]
+             "images": ["centos-7-v20200618", "windows-server-2016-dc-v20200813"]
             }
           ]
         }
@@ -40,7 +39,7 @@ jobs:
         timeout_minutes: 30
         max_attempts: 5
         retry_wait_seconds: 60
-        command: bundle exec rake 'litmus:install_agent'
+        command: bundle exec rake 'litmus:install_agent[puppet7-nightly]'
     - name: Install module
       run: bundle exec rake 'litmus:install_module'
     - name: Run acceptance tests
