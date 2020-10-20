@@ -25,7 +25,7 @@ jobs:
              "cloud": "gcp",
              "region": "europe-west1",
              "zone": "europe-west1-d",
-             "images": ["centos-7-v20200618"]
+             "images": ["centos-7-v20200618", "windows-server-2016-dc-v20200813"]
             }
           ]
         }
