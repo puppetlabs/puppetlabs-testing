@@ -32,6 +32,7 @@ jobs:
         }    
         EOF
         curl -X POST $PROVISION_SERVICE/v1/provision --data @test_machines.json > inventory.yaml
+        cat inventory.yaml
     - name: Install agent
       uses: nick-invision/retry@v1
       with:
