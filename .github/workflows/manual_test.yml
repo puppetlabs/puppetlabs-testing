@@ -31,7 +31,7 @@ jobs:
           ]
         }    
         EOF
-        curl -X POST -H "Authorization:bearer ${{ secrets.token }}" $PROVISION_SERVICE/v1/provision --data @test_machines.json > inventory.yaml
+        curl -X POST $PROVISION_SERVICE/v1/provision --data @test_machines.json > inventory.yaml
     - name: Install agent
       uses: nick-invision/retry@v1
       with:
@@ -54,7 +54,7 @@ jobs:
         EOF
         echo "Removing uuid"
         cat delete_resources.json
-        curl -X DELETE -H "Authorization:bearer ${{ secrets.token }}" $PROVISION_SERVICE/v1/provision --data @delete_resources.json
+        curl -X DELETE $PROVISION_SERVICE/v1/provision --data @delete_resources.json
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
