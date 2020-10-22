@@ -2,11 +2,13 @@ name: "manual_test"
 
 on:
   workflow_dispatch:
+    inputs:
+      service:
+        description: "URL for the provision service facade"
+        required: true
 
 jobs:
   LitmusAcceptance:
-    env:
-      PROVISION_SERVICE: https://facade-main-6f3kfepqcq-ew.a.run.app
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -29,9 +31,9 @@ jobs:
              "images": ["centos-7-v20200618", "windows-server-2016-dc-v20200813"]
             }
           ]
-        }    
+        }
         EOF
-        curl -X POST $PROVISION_SERVICE/v1/provision --data @test_machines.json > inventory.yaml
+        curl -X POST ${{ github.event.inputs.service }}/v1/provision --data @test_machines.json > inventory.yaml
         cat inventory.yaml
     - name: Install agent
       uses: nick-invision/retry@v1
@@ -55,7 +57,7 @@ jobs:
         EOF
         echo "Removing uuid"
         cat delete_resources.json
-        curl -X DELETE $PROVISION_SERVICE/v1/provision --data @delete_resources.json
+        curl -X DELETE ${{ github.event.inputs.service }}/v1/provision --data @delete_resources.json
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
