@@ -35,7 +35,7 @@ end
 # only load litmus on ruby versions new enough for bolt
 if Gem::Requirement.create(['>= 2.5.0']).satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
   gem 'bolt', '~> 2.30'
-  gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
+  gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git', branch: 'main'
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
