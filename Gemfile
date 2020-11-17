@@ -39,7 +39,7 @@ if Gem::Requirement.create(['>= 2.5.0']).satisfied_by?(Gem::Version.new(RUBY_VER
   gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git', branch: 'main'
 end
 
-puppet_version = ENV['PUPPET_GEM_VERSION']
+puppet_version = '6.19.1'
 facter_version = ENV['FACTER_GEM_VERSION']
 hiera_version = ENV['HIERA_GEM_VERSION']
 
