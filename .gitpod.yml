@@ -1,5 +1,4 @@
-image:
-  file: .gitpod.Dockerfile
+image: develops/gitpod-pdk
 
 tasks:
   - init: pdk bundle install
