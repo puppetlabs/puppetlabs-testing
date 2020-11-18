@@ -1,0 +1,46 @@
+name: "install_test"
+
+on: pull_request
+
+jobs:
+  LitmusAcceptance:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Install gems
+      run: bundle install
+    - name: Provision test environment
+      env:
+        TOKEN: ${{ secrets.token }}
+      run: |
+        export GITHUB_URL="https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        bundle exec rake 'litmus:provision[provision_service,windows-2016]'
+        bundle exec rake 'litmus:provision[provision_service,windows-2016]'
+        bundle exec rake 'litmus:provision[provision_service,windows-2016]'
+        bundle exec rake 'litmus:provision[provision_service,windows-2016]'
+        bundle exec rake 'litmus:provision[provision_service,windows-2016]'
+        cat inventory.yaml
+    - name: Install agent
+      uses: nick-invision/retry@v1
+      with:
+        timeout_minutes: 30
+        max_attempts: 5
+        retry_wait_seconds: 60
+        command: bundle exec rake 'litmus:install_agent[puppet6]'
+    - name: Install module
+      uses: nick-invision/retry@v1
+      with:
+        timeout_minutes: 30
+        max_attempts: 2
+        retry_wait_seconds: 60
+        command: bundle exec rake 'litmus:install_module'
+    - name: Remove test environment
+      if: ${{ always() }}
+      run: |
+        cat inventory.yaml
+        bundle exec rake 'litmus:tear_down'
+        cat request.json
