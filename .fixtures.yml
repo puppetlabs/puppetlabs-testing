@@ -1,7 +1,9 @@
 fixtures:
   repositories:
     facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
-    provision: 'https://github.com/puppetlabs/provision.git'
+    provision:
+      repo: 'https://github.com/DavidS/provision.git'
+      branch: 'check_connectivity_after_provision'
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     registry: 'https://github.com/puppetlabs/puppetlabs-registry.git'
     translate: 'https://github.com/puppetlabs/puppetlabs-translate.git'
