@@ -98,7 +98,7 @@
     }
   ],
   "description": "This module simply manages /etc/mdlj or the Windows Logon Message as a template, showing interpolation of system attributes",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
-  "template-ref": "heads/main-0-gd093482",
+  "template-url": "/home/david/git/pdk-templates/#master",
+  "template-ref": "heads/stop-retrying-0-g25a5cb8",
   "pdk-version": "1.18.1"
 }
