@@ -98,7 +98,7 @@
     }
   ],
   "description": "This module simply manages /etc/mdlj or the Windows Logon Message as a template, showing interpolation of system attributes",
-  "template-url": "/home/david/git/pdk-templates/#master",
-  "template-ref": "heads/stop-retrying-0-g25a5cb8",
+  "template-url": "https://github.com/DavidS/pdk-templates#rubocop-refresh",
+  "template-ref": "remotes/origin/rubocop-refresh-0-gc38d99a",
   "pdk-version": "1.18.1"
 }
