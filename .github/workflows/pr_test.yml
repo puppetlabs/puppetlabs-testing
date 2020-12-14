@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: "Honeycomb: Start recording"
-      uses: kvrhdn/gha-buildevents@v1.0.2
+      uses: DavidS/gha-buildevents@buildevent_file # pin@v1.0.2
       with:
         apikey: ${{ env.HONEYCOMB_WRITEKEY }}
         dataset: ${{ env.HONEYCOMB_DATASET }}
@@ -96,7 +96,7 @@ jobs:
         echo 'collection=${{ matrix.collection }}' >> $BUILDEVENT_FILE
 
     - name: "Honeycomb: Start recording"
-      uses: kvrhdn/gha-buildevents@v1.0.2
+      uses: DavidS/gha-buildevents@buildevent_file # pin@v1.0.2
       with:
         apikey: ${{ env.HONEYCOMB_WRITEKEY }}
         dataset: ${{ env.HONEYCOMB_DATASET }}
