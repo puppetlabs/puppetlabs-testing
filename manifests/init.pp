@@ -89,6 +89,8 @@ class mdlj (
     default => '0644',
   }
 
+  warn('This is a test!')
+
   File {
     owner => $owner,
     group => $group,
