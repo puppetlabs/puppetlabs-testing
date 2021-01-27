@@ -33,10 +33,10 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
 
-    - name: Activate Ruby 2.7
+    - name: Activate Ruby 2.6
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: "2.7"
+        ruby-version: "2.6"
 
     - name: Cache gems
       uses: actions/cache@v2
@@ -57,6 +57,7 @@ jobs:
     - name: Bundler Setup
       run: |
         buildevents cmd $TRACE_ID $STEP_ID 'bundle config path vendor/gems' -- bundle config path vendor/gems
+        buildevents cmd $TRACE_ID $STEP_ID 'bundle config bin vendor/bins' -- bundle config bin vendor/bins
         buildevents cmd $TRACE_ID $STEP_ID 'bundle config jobs 8' -- bundle config jobs 8
         buildevents cmd $TRACE_ID $STEP_ID 'bundle config retry 3' -- bundle config retry 3
         buildevents cmd $TRACE_ID $STEP_ID 'bundle install' -- bundle install
@@ -74,7 +75,7 @@ jobs:
 
     - name: "PDK Release prep"
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- pdk release prep --force --skip-documentation
+        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- ./vendor/bins/pdk release prep --force --skip-documentation
 
     - name: "Commit changes"
       run: |
