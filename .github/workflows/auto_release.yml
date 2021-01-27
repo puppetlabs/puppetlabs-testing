@@ -75,7 +75,7 @@ jobs:
 
     - name: "PDK Release prep"
       run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- ./vendor/bins/pdk release prep --force --skip-documentation
+        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- ./vendor/bins/pdk release prep --force 
 
     - name: "Commit changes"
       run: |
