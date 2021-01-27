@@ -1,11 +1,11 @@
 {
-  "name": "puppetlabs-mdlj",
+  "name": "puppetlabs-testing",
   "version": "4.2.0",
   "author": "puppetlabs",
-  "summary": "A simple module to demonstrate managing /etc/mdlj or Windows Logon Message as a template",
+  "summary": "A testing module",
   "license": "Apache-2.0",
-  "source": "https://github.com/puppetlabs/puppetlabs-mdlj",
-  "project_page": "https://github.com/puppetlabs/puppetlabs-mdlj",
+  "source": "https://github.com/puppetlabs/puppetlabs-testing",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-testing",
   "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "dependencies": [
     {
@@ -97,7 +97,7 @@
       "version_requirement": ">= 5.5.10 < 7.0.0"
     }
   ],
-  "description": "This module simply manages /etc/mdlj or the Windows Logon Message as a template, showing interpolation of system attributes",
+  "description": "This module is a testing only module derived from puppetlabs-motd",
   "template-url": "https://github.com/puppetlabs/pdk-templates.git#main",
   "template-ref": "heads/main-0-g1862b96",
   "pdk-version": "1.19.0.pre (47)"
