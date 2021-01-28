@@ -84,8 +84,17 @@ jobs:
         git add .
         git commit -m "Auto-Release prep"
 
-    - name: "Push release"
-      uses: ad-m/github-push-action@68af9897f2b021035ca3952bf354bbb4675c1762 #pin to v0.5.0
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: release
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "Auto-release prep"
+        branch: "release-prep"
+        delete-branch: true
+        labels: "maintenance"
+
+    - name: PR outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
