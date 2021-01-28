@@ -6,11 +6,11 @@
 
 ### Classes
 
-* [`mdlj`](#mdlj): This module configures a system message of the day on a wide variety of systems.
+* [`testing`](#testing): This module configures a system message of the day on a wide variety of systems.
 
 ## Classes
 
-### `mdlj`
+### <a name="testing"></a>`testing`
 
 This module configures a system message of the day on a wide variety of systems.
 
@@ -19,14 +19,23 @@ This module configures a system message of the day on a wide variety of systems.
 ##### Basic usage
 
 ```puppet
-include mdlj
+include testing
 ```
 
 #### Parameters
 
-The following parameters are available in the `mdlj` class.
+The following parameters are available in the `testing` class:
 
-##### `dynamic_mdlj`
+* [`dynamic_mdlj`](#dynamic_mdlj)
+* [`template`](#template)
+* [`content`](#content)
+* [`issue_template`](#issue_template)
+* [`issue_content`](#issue_content)
+* [`issue_net_template`](#issue_net_template)
+* [`issue_net_content`](#issue_net_content)
+* [`windows_mdlj_title`](#windows_mdlj_title)
+
+##### <a name="dynamic_mdlj"></a>`dynamic_mdlj`
 
 Data type: `Boolean`
 
@@ -34,7 +43,7 @@ Enables or disables dynamic mdlj on Debian systems.
 
 Default value: ``true``
 
-##### `template`
+##### <a name="template"></a>`template`
 
 Data type: `Optional[String]`
 
@@ -42,7 +51,7 @@ Specifies a custom template. A template takes precedence over `content`. Valid o
 
 Default value: ``undef``
 
-##### `content`
+##### <a name="content"></a>`content`
 
 Data type: `Optional[String]`
 
@@ -50,7 +59,7 @@ Specifies a static string as the mdlj content.
 
 Default value: ``undef``
 
-##### `issue_template`
+##### <a name="issue_template"></a>`issue_template`
 
 Data type: `Optional[String]`
 
@@ -58,7 +67,7 @@ Specifies a custom template to process and save to `/etc/issue`. A template take
 
 Default value: ``undef``
 
-##### `issue_content`
+##### <a name="issue_content"></a>`issue_content`
 
 Data type: `Optional[String]`
 
@@ -66,7 +75,7 @@ Specifies a static string as the `/etc/issue` content.
 
 Default value: ``undef``
 
-##### `issue_net_template`
+##### <a name="issue_net_template"></a>`issue_net_template`
 
 Data type: `Optional[String]`
 
@@ -74,7 +83,7 @@ Specifies a custom template to process and save to `/etc/issue.net`. A template 
 
 Default value: ``undef``
 
-##### `issue_net_content`
+##### <a name="issue_net_content"></a>`issue_net_content`
 
 Data type: `Optional[String]`
 
@@ -82,7 +91,7 @@ Specifies a static string as the `/etc/issue.net` content.
 
 Default value: ``undef``
 
-##### `windows_mdlj_title`
+##### <a name="windows_mdlj_title"></a>`windows_mdlj_title`
 
 Data type: `String`
 
@@ -92,3 +101,4 @@ and 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\policies\syste
 The 'legalnoticetext' registry key is shown before login on a Windows system.
 
 Default value: `'Message of the day'`
+
