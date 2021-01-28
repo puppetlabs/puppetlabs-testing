@@ -11,53 +11,53 @@ issue_net_file = '/etc/issue.net'
 template_expected_content = 'Test Template for Rspec'
 
 pp_static_content = <<-PUPPETCODE
-    class { mdlj:
+    class { testing:
       content => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template = <<-PUPPETCODE
-    class { mdlj:
-      template => "mdlj/spec.epp",
+    class { testing:
+      template => "testing/spec.epp",
     }
 PUPPETCODE
 
 pp_static_content_issue = <<-PUPPETCODE
-    class { mdlj:
+    class { testing:
       issue_content => "Hello world!\n",
       content       => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template_issue = <<-PUPPETCODE
-    class { mdlj:
-      issue_template => "mdlj/spec.epp",
+    class { testing:
+      issue_template => "testing/spec.epp",
       content        => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_content_issue_net = <<-PUPPETCODE
-    class { mdlj:
+    class { testing:
       issue_net_content => "Hello world!\n",
       content           => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_static_template_issue_net = <<-PUPPETCODE
-    class { mdlj:
-      issue_net_template => "mdlj/spec.epp",
+    class { testing:
+      issue_net_template => "testing/spec.epp",
       content            => "Hello world!\n",
     }
 PUPPETCODE
 
 pp_debian_dynamic = <<-PUPPETCODE
-    class { mdlj:
+    class { testing:
       dynamic_mdlj => false,
       content      => "Hello world!\n",
     }
 PUPPETCODE
 
-# @summary: Helper function to run common functionality of mdlj acceptance tests.
+# @summary: Helper function to run common functionality of testing acceptance tests.
 #           Applies the manifest twice, if not windows checks for file against expected contents.
 #           If a Debian dynamic test bool is given as true, executes a test for that platform.
 # @param [string]  pp:                  Class mdlj definition to be tested

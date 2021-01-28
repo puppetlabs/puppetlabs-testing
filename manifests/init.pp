@@ -2,7 +2,7 @@
 #   This module configures a system message of the day on a wide variety of systems.
 #
 # @example Basic usage
-#   include mdlj
+#   include testing
 #
 # @param dynamic_mdlj
 #   Enables or disables dynamic mdlj on Debian systems.
@@ -31,7 +31,7 @@
 #   and 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\policies\system\legalnoticecaption'
 #   The 'legalnoticetext' registry key is shown before login on a Windows system.
 #
-class mdlj (
+class testing (
   Boolean $dynamic_mdlj                 = true,
   Optional[String] $template            = undef,
   Optional[String] $content             = undef,
