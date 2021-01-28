@@ -84,6 +84,11 @@ jobs:
         git add .
         git commit -m "Auto-Release prep"
 
+    - name: "Get Version"
+      id: gv
+      run: |
+        echo "::set-output name=ver::$(cat metadata.json | jq .version)"
+
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
@@ -92,6 +97,7 @@ jobs:
         commit-message: "Auto-release prep"
         branch: "release-prep"
         delete-branch: true
+        title: "Auto-release prep ${{ steps.gv.outputs.ver }}"
         labels: "maintenance"
 
     - name: PR outputs
