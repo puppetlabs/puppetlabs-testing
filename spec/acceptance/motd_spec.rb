@@ -2,7 +2,7 @@
 
 require 'spec_helper_acceptance'
 
-mdlj_file = '/etc/mdlj'
+mdlj_file = '/etc/testing'
 
 issue_file = '/etc/issue'
 

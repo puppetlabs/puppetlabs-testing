@@ -49,7 +49,7 @@ class testing (
   } elsif $content {
     $mdlj_content = $content
   } else {
-    $mdlj_content = epp('mdlj/mdlj.epp')
+    $mdlj_content = epp('testing/testing.epp')
   }
 
   if $issue_template {
@@ -96,7 +96,7 @@ class testing (
   }
 
   if $facts['kernel'] in ['Linux', 'SunOS', 'FreeBSD', 'AIX'] {
-    file { '/etc/mdlj':
+    file { '/etc/testing':
       ensure  => file,
       backup  => false,
       content => $mdlj_content,

@@ -2,14 +2,14 @@
 
 require 'spec_helper'
 
-describe 'mdlj', type: :class do
+describe 'testing', type: :class do
   describe 'On a non-linux system' do
     let(:facts) { { kernel: 'Unknown' } }
 
     it 'does not fail' do
       is_expected.not_to raise_error
     end
-    it { is_expected.not_to contain_file('/etc/mdlj') }
+    it { is_expected.not_to contain_file('/etc/testing') }
     it { is_expected.not_to contain_file('/etc/issue') }
     it { is_expected.not_to contain_file('/etc/issue.net') }
   end
@@ -31,7 +31,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "TestOS 5 x86_64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel awesome\nKernel:       Linux\nMemory Size:  16.00 GB\n",
@@ -46,12 +46,12 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          template: 'mdlj/spec.epp',
+          template: 'testing/spec.epp',
         }
       end
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -63,7 +63,7 @@ describe 'mdlj', type: :class do
       let(:params) { { content: 'Hello!' } }
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: 'Hello!',
@@ -72,10 +72,10 @@ describe 'mdlj', type: :class do
     end
 
     context 'when an external template is specified' do
-      let(:params) { { template: 'mdlj/spec.epp' } }
+      let(:params) { { template: 'testing/spec.epp' } }
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -84,7 +84,7 @@ describe 'mdlj', type: :class do
     end
 
     context 'when a template is specified for /etc/issue' do
-      let(:params) { { issue_template: 'mdlj/spec.epp' } }
+      let(:params) { { issue_template: 'testing/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue').with(
@@ -115,7 +115,7 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           issue_content: 'Hello!',
-          issue_template: 'mdlj/spec.epp',
+          issue_template: 'testing/spec.epp',
         }
       end
 
@@ -129,7 +129,7 @@ describe 'mdlj', type: :class do
     end
 
     context 'when a template is specified for /etc/issue.net' do
-      let(:params) { { issue_net_template: 'mdlj/spec.epp' } }
+      let(:params) { { issue_net_template: 'testing/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue.net').with(
@@ -160,7 +160,7 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           issue_net_content: 'Hello!',
-          issue_net_template: 'mdlj/spec.epp',
+          issue_net_template: 'testing/spec.epp',
         }
       end
 
@@ -260,7 +260,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "TestOS 11 amd64\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    intel\nKernel:       FreeBSD\nMemory Size:  16.00 GB\n",
@@ -272,12 +272,12 @@ describe 'mdlj', type: :class do
       let(:params) do
         {
           content: 'Hello!',
-          template: 'mdlj/spec.epp',
+          template: 'testing/spec.epp',
         }
       end
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -289,7 +289,7 @@ describe 'mdlj', type: :class do
       let(:params) { { content: 'Hello!' } }
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: 'Hello!',
@@ -298,10 +298,10 @@ describe 'mdlj', type: :class do
     end
 
     context 'when an external template is specified' do
-      let(:params) { { template: 'mdlj/spec.epp' } }
+      let(:params) { { template: 'testing/spec.epp' } }
 
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "Test Template for Rspec\n",
@@ -326,7 +326,7 @@ describe 'mdlj', type: :class do
 
     context 'when neither template or source are specified' do
       it do
-        is_expected.to contain_File('/etc/mdlj').with(
+        is_expected.to contain_File('/etc/testing').with(
           ensure: 'file',
           backup: 'false',
           content: "AIX 7100-04-02-1614 PowerPC_POWER8\n\nFQDN:         test.example.com (123.23.243.1)\nProcessor:    \PowerPC_POWER8\nKernel:       AIX\nMemory Size:  16.00 GB\n",
@@ -337,7 +337,7 @@ describe 'mdlj', type: :class do
       end
     end
     context 'when a template is specified for /etc/issue' do
-      let(:params) { { issue_template: 'mdlj/spec.epp' } }
+      let(:params) { { issue_template: 'testing/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue').with(
@@ -351,7 +351,7 @@ describe 'mdlj', type: :class do
       end
     end
     context 'when a template is specified for /etc/issue.net' do
-      let(:params) { { issue_net_template: 'mdlj/spec.epp' } }
+      let(:params) { { issue_net_template: 'testing/spec.epp' } }
 
       it do
         is_expected.to contain_File('/etc/issue.net').with(
