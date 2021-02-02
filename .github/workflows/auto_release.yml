@@ -38,44 +38,16 @@ jobs:
       with:
         ruby-version: "2.6"
 
-    - name: Cache gems
-      uses: actions/cache@v2
-      with:
-        path: vendor/gems
-        key: ${{ runner.os }}-${{ github.event_name }}-${{ hashFiles('**/Gemfile') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ github.event_name }}-
-          ${{ runner.os }}-
-
-    - name: "Honeycomb: Record cache setup time"
-      if: ${{ always() }}
+    - name: "Install PDK and Run release prep"
       run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Cache retrieval'
-        echo STEP_ID="auto_release"  >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
-
-    - name: Bundler Setup
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle config path vendor/gems' -- bundle config path vendor/gems
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle config bin vendor/bins' -- bundle config bin vendor/bins
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle config jobs 8' -- bundle config jobs 8
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle config retry 3' -- bundle config retry 3
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle install' -- bundle install
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle clean' -- bundle clean
-        echo ::group::bundler environment
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle env' -- bundle env
-        echo ::endgroup::
-
-    - name: "Honeycomb: Record Bundler Setup time"
-      if: ${{ always() }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Bundler Setup'
-        echo STEP_ID="auto_release" >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
-
-    - name: "PDK Release prep"
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- ./vendor/bins/pdk release prep --force 
+        wget https://apt.puppet.com/puppet-tools-release-focal.deb
+        sudo dpkg -i puppet-tools-release-focal.deb
+        sudo apt-get update -y
+        sudo apt-get install -y pdk
+        echo $PWD
+        ls -la
+        pdk bundle install
+        pdk release prep --force 
 
     - name: "Commit changes"
       run: |
