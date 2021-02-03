@@ -38,16 +38,14 @@ jobs:
       with:
         ruby-version: "2.6"
 
-    - name: "Install PDK and Run release prep"
+    - name: "Bundle install"
       run: |
-        wget https://apt.puppet.com/puppet-tools-release-focal.deb
-        sudo dpkg -i puppet-tools-release-focal.deb
-        sudo apt-get update -y
-        sudo apt-get install -y pdk
-        echo $PWD
-        ls -la
-        pdk bundle install
-        pdk release prep --force 
+        echo "gem 'pdk'" >> Gemfile
+        bundle install 
+
+    - name: "PDK Release prep"
+      run: |
+        pdk release prep --force
 
     - name: "Commit changes"
       run: |
