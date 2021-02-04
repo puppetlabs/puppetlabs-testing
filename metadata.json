@@ -99,6 +99,6 @@
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
   "template-url": "https://github.com/carabasdaniel/pdk-templates.git#auto_releasewf",
-  "template-ref": "remotes/origin/auto_releasewf-0-gf9f5dc2",
+  "template-ref": "remotes/origin/auto_releasewf-0-g80696d6",
   "pdk-version": "1.18.1"
 }
