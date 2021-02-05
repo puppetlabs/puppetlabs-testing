@@ -49,6 +49,12 @@ jobs:
       run: |
         echo "::set-output name=ver::$(cat metadata.json | jq .version | tr -d \")"
 
+    - name: "Get Version"
+      if: ${{ github.repository_owner == 'puppetlabs' }}
+      id: gv
+      run: |
+        echo "::set-output name=ver::$(cat metadata.json | jq .version | tr -d \")"
+
     - name: "Commit changes"
       if: ${{ github.repository_owner == 'puppetlabs' }}
       run: |
