@@ -1,15 +1,10 @@
 name: "Auto release"
 
-on:
-  schedule:
-    - cron: '0 3 * * 6'
-  workflow_dispatch:
+on: [pull_request]
 
 env:
   HONEYCOMB_WRITEKEY: 7f3c63a70eecc61d635917de46bea4e6 
   HONEYCOMB_DATASET: litmus tests
-  SERVICE_URL: https://facade-main-6f3kfepqcq-ew.a.run.app/v1/provision
-  CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   auto_release:
@@ -36,36 +31,13 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
 
-    - name: Append PDK to Gemfile
-      if: ${{ github.repository_owner == 'puppetlabs' }}
-      run: |
-        echo "gem 'pdk'" >> Gemfile
-
-    - name: Activate Ruby 2.7
-      uses: ruby/setup-ruby@v1
-      if: ${{ github.repository_owner == 'puppetlabs' }}
-      with:
-        ruby-version: "2.7"
-        bundler-cache: true
-
-    - name: Print bundle environment
-      if: ${{ github.repository_owner == 'puppetlabs' }}
-      run: |
-        echo ::group::bundler environment
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle env' -- bundle env
-        echo ::endgroup::
-
-    - name: "Honeycomb: Record Bundler Setup time"
-      if: ${{ github.repository_owner == 'puppetlabs' }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Bundler Setup'
-        echo STEP_ID="auto_release_setup" >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
-
     - name: "PDK Release prep"
       if: ${{ github.repository_owner == 'puppetlabs' }}
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'pdk release prep' -- bundle exec pdk release prep --force 
+      uses: docker://puppet/pdk:nightly
+      with:
+        args: 'release prep --force'
+      env:
+        CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: "Get Version"
       if: ${{ github.repository_owner == 'puppetlabs' }}
