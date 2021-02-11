@@ -98,7 +98,7 @@
     }
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
-  "template-url": "https://github.com/carabasdaniel/pdk-templates#auto_releasewf",
-  "template-ref": "remotes/origin/auto_releasewf-0-ga999675",
+  "template-url": "https://github.com/carabasdaniel/pdk-templates#newmatrix",
+  "template-ref": "remotes/origin/newmatrix-0-ga6985cd",
   "pdk-version": "1.18.1"
 }
