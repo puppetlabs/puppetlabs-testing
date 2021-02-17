@@ -99,6 +99,6 @@
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
   "template-url": "https://github.com/carabasdaniel/pdk-templates#newmatrix",
-  "template-ref": "remotes/origin/newmatrix-0-g306b2a5",
-  "pdk-version": "1.18.1"
+  "template-ref": "remotes/origin/newmatrix-0-gf81a76b",
+  "pdk-version": "1.19.0.pre"
 }
