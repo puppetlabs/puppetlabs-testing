@@ -1,10 +1,12 @@
 fixtures:
   repositories:
     facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
-    provision: 'https://github.com/puppetlabs/provision.git'
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     registry: 'https://github.com/puppetlabs/puppetlabs-registry.git'
     translate: 'https://github.com/puppetlabs/puppetlabs-translate.git'
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+    provision:
+      repo: "https://github.com/pmcmaw/provision.git"
+      ref: "b82a5bbac55a3dda1b9f590d439b46af93409813"
   symlinks:
     mdlj: "#{source_dir}"
