@@ -124,7 +124,7 @@ jobs:
       with:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
         SSH_PASS: ${{ secrets.SSH_PASS }}
-        
+
     - name: Provision test environment
       run: |
         buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:provision ${{ matrix.platform }}' -- bundle exec rake 'litmus:provision[provision::provision_service,${{ matrix.platform }}]'
@@ -134,12 +134,6 @@ jobs:
         echo ::endgroup::
         echo ::group::=== INVENTORY ===
         sed -e 's/password: .*/password: "[redacted]"/' < /spec/fixtures/litmus_inventory.yaml || true
-        echo "------------inventory.yaml"
-        cat inventory.yaml
-        echo "---------/spec/fixtures/litmus_inventory"
-        cat /spec/fixtures/litmus_inventory
-        echo "------------pwd"
-        echo $PWD
         echo ::endgroup::
 
     - name: Install agent
