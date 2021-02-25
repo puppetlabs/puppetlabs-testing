@@ -7,6 +7,6 @@ fixtures:
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
     provision:
       repo: "https://github.com/pmcmaw/provision.git"
-      ref: "5580862d3bc6ece5da31f58b9f2d4733d5bb55f4"
+      ref: "87abc76aebe2546829513b77195f9e20d63beace"
   symlinks:
     mdlj: "#{source_dir}"
