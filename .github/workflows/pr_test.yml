@@ -139,7 +139,7 @@ jobs:
 
     - name: Provision test environment
       run: |
-        touch /home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml
+        mkdir -p /home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures && touch /home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml
         chmod 777 /home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml
         # touch inventory.yaml
         # chmod 777 inventory.yaml
