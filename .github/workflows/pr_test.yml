@@ -119,23 +119,23 @@ jobs:
         echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-2 >> $GITHUB_ENV
         echo STEP_START=$(date +%s) >> $GITHUB_ENV
 
-    # - name: Where am I?
-    #   run: |
-    #     echo ::group::=== LOCATION ===
-    #     echo `pwd`
-    #     dir=`pwd`
-    #     ls $dir
-    #     ls $dir"/spec"
-    #     mkdir $dir"/spec/fixtures"
-    #     echo 'check fixtures is created'
-    #     ls $dir"/spec"
-    #     echo ::group::=== END ===
-    #
-    # - name: Start SSH session
-    #   uses: luchihoratiu/debug-via-ssh@main
-    #   with:
-    #     NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-    #     SSH_PASS: ${{ secrets.SSH_PASS }}
+    - name: Where am I?
+      run: |
+        echo ::group::=== LOCATION ===
+        echo `pwd`
+        dir=`pwd`
+        ls $dir
+        ls $dir"/spec"
+        mkdir $dir"/spec/fixtures"
+        echo 'check fixtures is created'
+        ls $dir"/spec"
+        echo ::group::=== END ===
+
+    - name: Start SSH session
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASS }}
 
     - name: Provision test environment
       run: |
