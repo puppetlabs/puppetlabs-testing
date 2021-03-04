@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       matrix: ${{ steps.get-matrix.outputs.matrix }}
+      spec_matrix: ${{ steps.get-matrix.outputs.spec_matrix }}
 
     steps:
     - name: "Honeycomb: Start recording"
@@ -52,13 +53,14 @@ jobs:
         echo STEP_ID=Setup-Acceptance-Test-Matrix >> $GITHUB_ENV
         echo STEP_START=$(date +%s) >> $GITHUB_ENV
 
-    - name: Setup Acceptance Test Matrix
+    - name: Setup Acceptance & Spec Test Matrix
       id: get-matrix
       run: |
         if [ '${{ github.repository_owner }}' == 'puppetlabs' ]; then
-          buildevents cmd $TRACE_ID $STEP_ID matrix_from_metadata -- bundle exec matrix_from_metadata
+          buildevents cmd $TRACE_ID $STEP_ID matrix_from_metadata -- bundle exec matrix_from_metadata_v3
         else
           echo  "::set-output name=matrix::{}"
+          echo  "::set-output name=spec_matrix::{}"
         fi
 
     - name: "Honeycomb: Record Setup Test Matrix time"
@@ -66,7 +68,60 @@ jobs:
       run: |
         buildevents step $TRACE_ID $STEP_ID $STEP_START 'Setup Test Matrix'
 
+  Spec:
+    name: "Spec Tests (Puppet: ${{matrix.puppet_version}}, Ruby Ver: ${{matrix.ruby_version}})"
+    needs:
+      - setup_matrix
+    if: ${{ needs.setup_matrix.outputs.spec_matrix != '{}' }}
+
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.setup_matrix.outputs.spec_matrix)}}
+
+    env:
+      BUILDEVENT_FILE: '../buildevents.txt'
+      PUPPET_GEM_VERSION: ${{ matrix.puppet_version }}
+
+    steps:
+    - run: |
+        echo 'puppet_version=${{ matrix.puppet_version }}' >> $BUILDEVENT_FILE
+        echo 'ruby_version=${{ matrix.ruby_version }}' >> $BUILDEVENT_FILE
+
+    - name: "Honeycomb: Start first step"
+      run: |
+        echo STEP_ID=${{matrix.puppet_version}}-spec  >> $GITHUB_ENV
+        echo STEP_START=$(date +%s) >> $GITHUB_ENV
+
+    - name: "Honeycomb: Start recording"
+      uses: puppetlabs/kvrhdn-gha-buildevents@pdk-templates-v1
+      with:
+        apikey: ${{ env.HONEYCOMB_WRITEKEY }}
+        dataset: ${{ env.HONEYCOMB_DATASET }}
+        job-status: ${{ job.status }}
+        matrix-key: ${{ matrix.puppet_version }}
+
+    - name: Checkout Source
+      uses: actions/checkout@v2
+
+    - name: "Activate Ruby ${{ matrix.ruby_version }}"
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{matrix.ruby_version}}
+        bundler-cache: true
+
+    - name: Print bundle environment
+      run: |
+        echo ::group::bundler environment
+        buildevents cmd $TRACE_ID $STEP_ID 'bundle env' -- bundle env
+        echo ::endgroup::
+
+    - name: Run parallel_spec tests
+      run: |
+        buildevents cmd $TRACE_ID $STEP_ID 'rake parallel_spec Puppet ${{ matrix.puppet_version }}, Ruby ${{ matrix.ruby_version }}' -- bundle exec rake parallel_spec
+
   Acceptance:
+    name: "${{matrix.platforms.label}}, ${{matrix.collection}}"
     needs:
       - setup_matrix
     if: ${{ needs.setup_matrix.outputs.matrix != '{}' }}
@@ -80,97 +135,98 @@ jobs:
       BUILDEVENT_FILE: '../buildevents.txt'
 
     steps:
-    - run: |
-        echo 'platform=${{ matrix.platform }}' >> $BUILDEVENT_FILE
-        echo 'collection=${{ matrix.collection }}' >> $BUILDEVENT_FILE
+      - run: |
+          echo 'platform=${{ matrix.platforms.image }}' >> $BUILDEVENT_FILE
+          echo 'collection=${{ matrix.collection }}' >> $BUILDEVENT_FILE
+          echo 'label=${{ matrix.platforms.label }}' >> $BUILDEVENT_FILE
 
-    - name: "Honeycomb: Start recording"
-      uses: puppetlabs/kvrhdn-gha-buildevents@pdk-templates-v1
-      with:
-        apikey: ${{ env.HONEYCOMB_WRITEKEY }}
-        dataset: ${{ env.HONEYCOMB_DATASET }}
-        job-status: ${{ job.status }}
-        matrix-key: ${{ matrix.platform }}-${{ matrix.collection }}
+      - name: "Honeycomb: Start recording"
+        uses: puppetlabs/kvrhdn-gha-buildevents@pdk-templates-v1
+        with:
+          apikey: ${{ env.HONEYCOMB_WRITEKEY }}
+          dataset: ${{ env.HONEYCOMB_DATASET }}
+          job-status: ${{ job.status }}
+          matrix-key: ${{ matrix.platforms.label }}-${{ matrix.collection }}
 
-    - name: "Honeycomb: start first step"
-      run: |
-        echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-1 >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
+      - name: "Honeycomb: start first step"
+        run: |
+          echo STEP_ID=${{ matrix.platforms.image }}-${{ matrix.collection }}-1 >> $GITHUB_ENV
+          echo STEP_START=$(date +%s) >> $GITHUB_ENV
 
-    - name: Checkout Source
-      uses: actions/checkout@v2
+      - name: Checkout Source
+        uses: actions/checkout@v2
 
-    - name: Activate Ruby 2.7
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: "2.7"
-        bundler-cache: true
+      - name: Activate Ruby 2.7
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+          bundler-cache: true
 
-    - name: Print bundle environment
-      run: |
-        echo ::group::bundler environment
-        buildevents cmd $TRACE_ID $STEP_ID 'bundle env' -- bundle env
-        echo ::endgroup::
+      - name: Print bundle environment
+        run: |
+          echo ::group::bundler environment
+          buildevents cmd $TRACE_ID $STEP_ID 'bundle env' -- bundle env
+          echo ::endgroup::
 
-    - name: "Honeycomb: Record Setup Environment time"
-      if: ${{ always() }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Setup Environment'
-        echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-2 >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
+      - name: "Honeycomb: Record Setup Environment time"
+        if: ${{ always() }}
+        run: |
+          buildevents step $TRACE_ID $STEP_ID $STEP_START 'Setup Environment'
+          echo STEP_ID=${{ matrix.platforms.image }}-${{ matrix.collection }}-2 >> $GITHUB_ENV
+          echo STEP_START=$(date +%s) >> $GITHUB_ENV
 
-    - name: Provision test environment
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:provision ${{ matrix.platform }}' -- bundle exec rake 'litmus:provision[provision::provision_service,${{ matrix.platform }}]'
-        echo ::group::=== REQUEST ===
-        cat request.json || true
-        echo
-        echo ::endgroup::
-        echo ::group::=== INVENTORY ===
-        sed -e 's/password: .*/password: "[redacted]"/' < inventory.yaml || true
-        echo ::endgroup::
-
-    - name: Install agent
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:install_agent ${{ matrix.collection }}' -- bundle exec rake 'litmus:install_agent[${{ matrix.collection }}]'
-
-    - name: Install module
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:install_module' -- bundle exec rake 'litmus:install_module'
-
-    - name: "Honeycomb: Record deployment times"
-      if: ${{ always() }}
-      run: |
-        echo ::group::honeycomb step
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Deploy test system'
-        echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-3 >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
-        echo ::endgroup::
-
-    - name: Run acceptance tests
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:acceptance:parallel' -- bundle exec rake 'litmus:acceptance:parallel'
-
-    - name: "Honeycomb: Record acceptance testing times"
-      if: ${{ always() }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Run acceptance tests'
-        echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-4 >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
-
-    - name: Remove test environment
-      if: ${{ always() }}
-      continue-on-error: true
-      run: |
-        if [ -f inventory.yaml ]; then
-          buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:tear_down' -- bundle exec rake 'litmus:tear_down'
+      - name: Provision test environment
+        run: |
+          buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:provision ${{ matrix.platforms.image }}' -- bundle exec rake 'litmus:provision[${{matrix.platforms.provider}},${{ matrix.platforms.image }}]'
           echo ::group::=== REQUEST ===
           cat request.json || true
           echo
           echo ::endgroup::
-        fi
+          echo ::group::=== INVENTORY ===
+          sed -e 's/password: .*/password: "[redacted]"/' < inventory.yaml || true
+          echo ::endgroup::
 
-    - name: "Honeycomb: Record removal times"
-      if: ${{ always() }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Remove test environment'
+      - name: Install agent
+        run: |
+          buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:install_agent ${{ matrix.collection }}' -- bundle exec rake 'litmus:install_agent[${{ matrix.collection }}]'
+
+      - name: Install module
+        run: |
+          buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:install_module' -- bundle exec rake 'litmus:install_module'
+
+      - name: "Honeycomb: Record deployment times"
+        if: ${{ always() }}
+        run: |
+          echo ::group::honeycomb step
+          buildevents step $TRACE_ID $STEP_ID $STEP_START 'Deploy test system'
+          echo STEP_ID=${{ matrix.platforms.image }}-${{ matrix.collection }}-3 >> $GITHUB_ENV
+          echo STEP_START=$(date +%s) >> $GITHUB_ENV
+          echo ::endgroup::
+
+      - name: Run acceptance tests
+        run: |
+          buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:acceptance:parallel' -- bundle exec rake 'litmus:acceptance:parallel'
+
+      - name: "Honeycomb: Record acceptance testing times"
+        if: ${{ always() }}
+        run: |
+          buildevents step $TRACE_ID $STEP_ID $STEP_START 'Run acceptance tests'
+          echo STEP_ID=${{ matrix.platforms.image }}-${{ matrix.collection }}-4 >> $GITHUB_ENV
+          echo STEP_START=$(date +%s) >> $GITHUB_ENV
+
+      - name: Remove test environment
+        if: ${{ always() }}
+        continue-on-error: true
+        run: |
+          if [ -f inventory.yaml ]; then
+            buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:tear_down' -- bundle exec rake 'litmus:tear_down'
+            echo ::group::=== REQUEST ===
+            cat request.json || true
+            echo
+            echo ::endgroup::
+          fi
+
+      - name: "Honeycomb: Record removal times"
+        if: ${{ always() }}
+        run: |
+          buildevents step $TRACE_ID $STEP_ID $STEP_START 'Remove test environment'

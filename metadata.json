@@ -94,7 +94,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.5.10 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     }
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
