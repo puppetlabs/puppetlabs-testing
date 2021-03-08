@@ -94,11 +94,11 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.5.10 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     }
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
-  "template-url": "https://github.com/carabasdaniel/pdk-templates#auto_releasewf",
-  "template-ref": "remotes/origin/auto_releasewf-0-ga999675",
+  "template-url": "https://github.com/sanfrancrisko/pdk-templates#IAC-1307/main/spec_tests_ghactions",
+  "template-ref": "remotes/origin/IAC-1307/main/spec_tests_ghactions-0-gc00f8c5",
   "pdk-version": "1.18.1"
 }
