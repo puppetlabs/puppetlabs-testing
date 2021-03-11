@@ -133,7 +133,14 @@ jobs:
         echo
         echo ::endgroup::
         echo ::group::=== INVENTORY ===
-        sed -e 's/password: .*/password: "[redacted]"/' < /home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml || true
+        if [ -f '/home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml' ];
+        then
+          FILE='/home/runner/work/puppetlabs-testing/puppetlabs-testing/spec/fixtures/litmus_inventory.yaml'
+         elif [ -f 'inventory.yaml' ];
+        then
+          FILE='inventory.yaml'
+        fi
+        sed -e 's/password: .*/password: "[redacted]"/' < $FILE || true
         echo ::endgroup::
 
     - name: Install agent
