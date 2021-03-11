@@ -25,7 +25,7 @@ group :development do
   gem "puppet-module-win-default-r#{minor_version}", '~> 1.0',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "puppet-module-win-dev-r#{minor_version}", '~> 1.0',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "github_changelog_generator",                              require: false
-  gem "puppet_litmus", git: "https://github.com/pmcmaw/puppet_litmus", ref: "c2e9c21ba09ab8bef3c62cb8484a36d0bdad7273" if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
+  gem "puppet_litmus", git: "https://github.com/pmcmaw/puppet_litmus", ref: "9fffdf452c7d93da9b79ddb28fdc55b2797ed198" if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
   gem "bolt",                                                    require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
 end
 group :system_tests do
