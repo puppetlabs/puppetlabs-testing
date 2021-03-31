@@ -9,23 +9,7 @@ common:
 .gitpod.yml:
   unmanaged: false
 ".travis.yml":
-  global_env:
-    - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
-  dist: trusty
-  deploy_to_forge:
-    enabled: false
-  branches:
-  - release
-  user: puppet
-  secure: ''
-  use_litmus: false
-  simplecov: true
-appveyor.yml:
-  environment:
-    HONEYCOMB_WRITEKEY: 7f3c63a70eecc61d635917de46bea4e6
-    HONEYCOMB_DATASET: litmus tests
-  use_litmus: false
-  simplecov: true
+  delete: true
 Gemfile:
   optional:
     ":development":
@@ -43,8 +27,13 @@ spec/spec_helper.rb:
   unmanaged: false
 .gitpod.yml:
   unmanaged: false
-
+appveyor.yml:
+  delete: true
 .github/workflows/nightly.yml:
   unmanaged: false
 .github/workflows/pr_test.yml:
+  unmanaged: false
+.github/workflows/spec.yml:
+  unmanaged: false
+.github/workflows/auto_release.yml:
   unmanaged: false
