@@ -95,6 +95,6 @@
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
   "template-url": "https://github.com/carabasdaniel/pdk-templates#update_auto_release_prep",
-  "template-ref": "remotes/origin/update_auto_release_prep-0-gbc49532",
+  "template-ref": "remotes/origin/update_auto_release_prep-0-ga24f631",
   "pdk-version": "1.19.0.pre"
 }
