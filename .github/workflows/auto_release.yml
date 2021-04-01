@@ -70,9 +70,9 @@ jobs:
         body: |
           Automated release-prep through [pdk-templates](https://github.com/puppetlabs/pdk-templates/blob/main/moduleroot/.github/workflows/auto_release.yml.erb) from commit ${{ github.sha }}. 
           Please verify before merging:
-          - [ ] last nightly run is green
-          - [ ] Changelog is readable and has no unlabeled pull requests
-          - [ ] Ensure the changelog version and metadata version match
+          - [ ] last [nightly]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/nightly.yml) run is green
+          - [ ] [Changelog]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/release-prep/CHANGELOG.md) is readable and has no unlabeled pull requests
+          - [ ] Ensure the [changelog]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/release-prep/CHANGELOG.md) version and [metadata](https://github.com/puppetlabs/puppetlabs-testing/blob/release-prep/metadata.json) version match
         labels: "maintenance"
 
     - name: PR outputs
