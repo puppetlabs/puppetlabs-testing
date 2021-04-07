@@ -185,7 +185,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Slack Workflow Notification
-        uses: Gamesight/slack-workflow-status@master
+        uses: puppetlabs/Gamesight-slack-workflow-status@pdk-templates-v1
         with:
           # Required Input
           repo_token: ${{secrets.GITHUB_TOKEN}}
