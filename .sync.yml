@@ -36,6 +36,8 @@ Gemfile:
       condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
     - gem: bolt
       condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
+Rakefile:
+  changelog_since_tag: 1.9.0
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
@@ -47,4 +49,11 @@ spec/spec_helper.rb:
 .github/workflows/nightly.yml:
   unmanaged: false
 .github/workflows/pr_test.yml:
+  unmanaged: false
+.github/workflows/auto_release.yml:
+  unmanaged: false
+.github/workflows/spec.yml:
+  checks: 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
+  unmanaged: false
+.github/workflows/release.yml:
   unmanaged: false
