@@ -1,7 +1,7 @@
-jobs:
-
 on:
   workflow_dispatch:
+  
+jobs:
 
   Spec:
     runs-on: ubuntu-latest
