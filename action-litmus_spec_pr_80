@@ -1,0 +1,28 @@
+on:
+  workflow_dispatch:
+  
+jobs:
+
+  Spec:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check: [parallel_spec, 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop']
+        ruby_version: [2.7.x]
+        puppet_gem_version: [~> 5.0, ~> 6.0]
+        exclude:
+        - puppet_gem_version: ~> 7.0
+          check: 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
+        - ruby_version: 2.7.x
+          puppet_gem_version: ~> 7.0
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby_version: ${{matrix.ruby_version}}
+    - name: Spec Tests
+      uses: puppetlabs/action-litmus_spec@dependabot/npm_and_yarn/eslint-7.24.0
+      with:
+        puppet_gem_version: ${{ matrix.puppet_gem_version }}
+        check: ${{ matrix.check }}
