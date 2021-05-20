@@ -144,6 +144,12 @@ jobs:
         sed -e 's/password: .*/password: "[redacted]"/' < $FILE || true
         echo ::endgroup::
 
+    - name: Start SSH session
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+      NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      SSH_PASS: ${{ secrets.SSH_PASS }}
+
     - name: Install agent
       run: |
         buildevents cmd $TRACE_ID $STEP_ID 'rake litmus:install_agent ${{ matrix.collection }}' -- bundle exec rake 'litmus:install_agent[${{ matrix.collection }}]'
