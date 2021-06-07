@@ -1,8 +1,6 @@
 name: "Auto release"
 
 on:
-  schedule:
-    - cron: '0 3 * * 6'
   workflow_dispatch:
 
 env:
@@ -37,7 +35,7 @@ jobs:
         persist-credentials: false
 
     - name: "PDK Release prep"
-      uses: docker://puppet/pdk:nightly
+      uses: docker://puppet/iac_release:ci
       with:
         args: 'release prep --force'
       env:
