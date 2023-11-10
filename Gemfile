@@ -38,7 +38,7 @@ group :development do
   gem "bolt",                                      require: false if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
 end
 group :system_tests do
-  gem "puppet_litmus", '~> 1.0', require: false, platforms: [:ruby, :x64_mingw]
+  gem "puppet_litmus", :github => 'puppetlabs/puppet_litmus', :branch => 'CAT-1545-add_machine_type_to_matrix'
   gem "serverspec", '~> 2.41',    require: false
 end
 
