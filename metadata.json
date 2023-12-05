@@ -92,7 +92,7 @@
     }
   ],
   "description": "This module is a testing only module derived from puppetlabs-motd",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
-  "template-ref": "tags/2.7.3-0-g8f110f1",
-  "pdk-version": "2.6.1"
+  "template-url": "https://github.com/puppetlabs/pdk-templates#maint-remove-github-changelog-gem-footprint",
+  "template-ref": "remotes/origin/maint-remove-github-changelog-gem-footprint-0-g67f4a8b",
+  "pdk-version": "3.0.0"
 }
