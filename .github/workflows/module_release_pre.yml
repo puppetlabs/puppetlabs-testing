@@ -9,7 +9,7 @@ on:
 
 jobs:
   release_prep:
-    uses: "puppetlabs/cat-github-actions/.github/workflows/module_release_prep.yml@Adding-BUNDLE_WITHOUT-in-release-prep"
+    uses: "puppetlabs/cat-github-actions/.github/workflows/module_release_prep.yml@Updating-BUNDLE_WITHOUT"
     with:
       version: "${{ github.event.inputs.version }}"
     secrets: "inherit"
