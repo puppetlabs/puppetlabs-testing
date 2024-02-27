@@ -29,11 +29,6 @@ appveyor.yml:
 Gemfile:
   optional:
     ":development":
-    - gem: github_changelog_generator
-    - gem: puppet_litmus
-      git: https://github.com/puppetlabs/puppet_litmus
-      ref: main
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
     - gem: bolt
       condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.7.0')
 Rakefile:
