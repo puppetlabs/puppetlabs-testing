@@ -1,4 +1,4 @@
-# mdlj - testing module
+# Testing - testing module
 
 > **WARNING**  DO NOT USE IN PRODUCTION  **WARNING**
 
@@ -15,7 +15,7 @@
 
 ## Module Description
 
-The mdlj module configures a system message of the day. The module includes a default message template. Alternatively, you can specify a different template or a static string.
+The testing module configures a system message of the day. The module includes a default message template. Alternatively, you can specify a different template or a static string.
 
 ## Setup
 
