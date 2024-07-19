@@ -10,7 +10,7 @@ common:
   unmanaged: false
 ".travis.yml":
   global_env:
-    - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
+    - HONEYCOMB_WRITEKEY="xxxxxxxxxxxxxxx",HONEYCOMB_DATASET="litmus tests"
   dist: trusty
   deploy_to_forge:
     enabled: false
@@ -22,7 +22,7 @@ common:
   simplecov: true
 appveyor.yml:
   environment:
-    HONEYCOMB_WRITEKEY: 7f3c63a70eecc61d635917de46bea4e6
+    HONEYCOMB_WRITEKEY: xxxxxxxxxxxxxxx
     HONEYCOMB_DATASET: litmus tests
   use_litmus: false
   simplecov: true
