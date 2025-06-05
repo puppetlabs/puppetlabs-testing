@@ -26,72 +26,72 @@ include testing
 
 The following parameters are available in the `testing` class:
 
-* [`dynamic_mdlj`](#dynamic_mdlj)
-* [`template`](#template)
-* [`content`](#content)
-* [`issue_template`](#issue_template)
-* [`issue_content`](#issue_content)
-* [`issue_net_template`](#issue_net_template)
-* [`issue_net_content`](#issue_net_content)
-* [`windows_mdlj_title`](#windows_mdlj_title)
+* [`dynamic_mdlj`](#-testing--dynamic_mdlj)
+* [`template`](#-testing--template)
+* [`content`](#-testing--content)
+* [`issue_template`](#-testing--issue_template)
+* [`issue_content`](#-testing--issue_content)
+* [`issue_net_template`](#-testing--issue_net_template)
+* [`issue_net_content`](#-testing--issue_net_content)
+* [`windows_mdlj_title`](#-testing--windows_mdlj_title)
 
-##### <a name="dynamic_mdlj"></a>`dynamic_mdlj`
+##### <a name="-testing--dynamic_mdlj"></a>`dynamic_mdlj`
 
 Data type: `Boolean`
 
 Enables or disables dynamic mdlj on Debian systems.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="template"></a>`template`
+##### <a name="-testing--template"></a>`template`
 
 Data type: `Optional[String]`
 
 Specifies a custom template. A template takes precedence over `content`. Valid options:  '/mymodule/mytemplate.erb'.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="content"></a>`content`
+##### <a name="-testing--content"></a>`content`
 
 Data type: `Optional[String]`
 
 Specifies a static string as the mdlj content.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="issue_template"></a>`issue_template`
+##### <a name="-testing--issue_template"></a>`issue_template`
 
 Data type: `Optional[String]`
 
 Specifies a custom template to process and save to `/etc/issue`. A template takes precedence over `issue_content`.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="issue_content"></a>`issue_content`
+##### <a name="-testing--issue_content"></a>`issue_content`
 
 Data type: `Optional[String]`
 
 Specifies a static string as the `/etc/issue` content.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="issue_net_template"></a>`issue_net_template`
+##### <a name="-testing--issue_net_template"></a>`issue_net_template`
 
 Data type: `Optional[String]`
 
 Specifies a custom template to process and save to `/etc/issue.net`. A template takes precedence over `issue_net_content`.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="issue_net_content"></a>`issue_net_content`
+##### <a name="-testing--issue_net_content"></a>`issue_net_content`
 
 Data type: `Optional[String]`
 
 Specifies a static string as the `/etc/issue.net` content.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="windows_mdlj_title"></a>`windows_mdlj_title`
+##### <a name="-testing--windows_mdlj_title"></a>`windows_mdlj_title`
 
 Data type: `String`
 

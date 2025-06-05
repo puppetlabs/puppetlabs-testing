@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-testing",
-  "version": "4.2.0",
+  "version": "1.9.1",
   "author": "puppetlabs",
   "summary": "A testing module",
   "license": "Apache-2.0",
